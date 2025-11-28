@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin Dashboard - Mahasiswa</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <button id="menuToggle" class="burger" aria-label="toggle menu">☰</button>
+    <h1>Mahasiswa • Admin</h1>
+    <div class="top-actions">
+      <input id="searchInput" placeholder="Cari nama / jurusan..." />
+      <button id="addBtn" class="btn primary">Tambah</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside id="sidebar" class="sidebar">
+      <div class="brand">
+        <div class="logo">RD</div>
+        <div>
+          <strong>Admin</strong>
+          <small>Mahasiswa</small>
+        </div>
+      </div>
+      <nav>
+        <a class="active" href="#" data-section="list">Data Mahasiswa</a>
+        <a href="#" data-section="about">Tentang</a>
+      </nav>
+      <footer class="sidebar-foot">
+        <small>Local demo • no DB</small>
+      </footer>
+    </aside>
+
+    <main class="main">
+      <section id="list" class="card">
+        <div class="card-head">
+          <h2>Daftar Mahasiswa</h2>
+          <div class="card-actions">
+            <select id="filterMajor">
+              <option value="">Semua Jurusan</option>
+            </select>
+            <button id="exportBtn" class="btn">Export JSON</button>
+            <button id="importBtn" class="btn">Import</button>
+            <input type="file" id="importFile" hidden accept=".json" />
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table id="dataTable">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>Jurusan</th>
+                <th>Usia</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div id="emptyState" class="empty">Belum ada data. Klik "Tambah" untuk menambah mahasiswa.</div>
+        </div>
+      </section>
+
+      <section id="about" class="card hidden">
+        <h2>Tentang Proyek</h2>
+        <p>Dashboard admin universitas </p>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL: Add / Edit -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-panel">
+      <header>
+        <h3 id="modalTitle">Tambah Mahasiswa</h3>
+        <button id="modalClose" class="btn-ghost" aria-label="close">✕</button>
+      </header>
+
+      <form id="form">
+        <input type="hidden" id="studentId" />
+        <label>
+          Nama
+          <input id="name" required minlength="2" />
+        </label>
+        <label>
+          Email
+          <input id="email" type="email" required />
+        </label>
+        <label>
+          Jurusan
+          <input id="major" required />
+        </label>
+        <label>
+          Usia
+          <input id="age" type="number" min="10" max="100" required />
+        </label>
+
+        <div class="modal-foot">
+          <button type="button" id="cancelBtn" class="btn">Batal</button>
+          <button type="submit" class="btn primary" id="saveBtn">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CONFIRM DELETE -->
+  <div id="confirm" class="modal hidden" aria-hidden="true">
+    <div class="modal-panel small">
+      <header><h3>Konfirmasi Hapus</h3></header>
+      <p>Yakin ingin menghapus data ini?</p>
+      <div class="modal-foot">
+        <button id="confirmNo" class="btn">Tidak</button>
+        <button id="confirmYes" class="btn danger">Hapus</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
