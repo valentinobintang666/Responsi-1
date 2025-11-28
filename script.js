@@ -1,6 +1,6 @@
-// script.js — CRUD with localStorage, modal, filter, import/export
+
 (() => {
-  // DOM
+  
   const menuToggle = document.getElementById('menuToggle');
   const sidebar = document.getElementById('sidebar');
   const addBtn = document.getElementById('addBtn');
@@ -19,7 +19,7 @@
   const listSection = document.getElementById('list');
   const navLinks = document.querySelectorAll('.sidebar nav a');
 
-  // form fields
+  
   const studentId = document.getElementById('studentId');
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
@@ -27,13 +27,13 @@
   const ageInput = document.getElementById('age');
   const modalTitle = document.getElementById('modalTitle');
 
-  // storage key
+  
   const STORAGE_KEY = 'responsi_mahasiswa_v1';
 
-  // local in-memory
+  
   let students = [];
 
-  // utilities
+  
   const uid = () => 'id-' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
 
   function saveToStorage(){
@@ -48,7 +48,7 @@
     }
   }
 
-  // Renderers
+  
   function renderTable(){
     const q = searchInput.value.trim().toLowerCase();
     const majorFilter = filterMajor.value;
@@ -91,7 +91,7 @@
     });
   }
 
-  // CRUD
+  
   function addStudent(payload){
     students.push({ id: uid(), ...payload });
     saveToStorage();
@@ -107,7 +107,7 @@
     saveToStorage(); renderTable(); populateMajorFilter();
   }
 
-  // helpers
+  
   function openModal(edit = false, data = null){
     modal.classList.remove('hidden');
     if(edit && data){
@@ -128,12 +128,12 @@
     modal.classList.add('hidden');
   }
 
-  // basic XSS escape for table output
+  
   function escapeHtml(s){
     return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   }
 
-  // events
+  
   menuToggle.addEventListener('click', e => sidebar.classList.toggle('open'));
   addBtn.addEventListener('click', () => openModal(false));
   modalClose.addEventListener('click', closeModal);
@@ -148,7 +148,7 @@
       major: majorInput.value.trim(),
       age: Number(ageInput.value)
     };
-    // validation
+    
     if(!payload.name || !payload.email || !payload.major || !payload.age){ alert('Isi semua field'); return; }
     const id = studentId.value;
     if(id){
@@ -172,7 +172,7 @@
     }
   });
 
-  // confirm delete flow
+  
   let pendingDeleteId = null;
   function openConfirm(id){
     pendingDeleteId = id;
@@ -186,11 +186,11 @@
     pendingDeleteId = null; document.getElementById('confirm').classList.add('hidden');
   });
 
-  // search & filter
+  
   searchInput.addEventListener('input', renderTable);
   filterMajor.addEventListener('change', renderTable);
 
-  // export/import
+  
   exportBtn.addEventListener('click', () => {
     const blob = new Blob([JSON.stringify(students, null, 2)], {type:'application/json'});
     const url = URL.createObjectURL(blob);
@@ -208,7 +208,7 @@
       try {
         const parsed = JSON.parse(reader.result);
         if(Array.isArray(parsed)){
-          // map & ensure minimal shape
+          
           parsed.forEach(p => {
             if(p.name && p.email) students.push({ id: uid(), name: p.name, email: p.email, major: p.major || 'Unknown', age: p.age || 0 });
           });
@@ -224,7 +224,7 @@
     importFile.value = '';
   });
 
-  // navigation
+  
   navLinks.forEach(a => a.addEventListener('click', (ev) => {
     ev.preventDefault();
     navLinks.forEach(x=>x.classList.remove('active'));
@@ -234,7 +234,7 @@
     else { aboutSection.classList.add('hidden'); listSection.classList.remove('hidden'); }
   }));
 
-  // init with sample data if empty
+  
   function seedIfEmpty(){
     if(students.length === 0){
       students = [
@@ -246,13 +246,13 @@
     }
   }
 
-  // startup
+  
   loadFromStorage();
   seedIfEmpty();
   populateMajorFilter();
   renderTable();
 
-  // small accessibility: escape to close modal
+  
   document.addEventListener('keydown', (e) => {
     if(e.key === 'Escape'){
       if(!modal.classList.contains('hidden')) closeModal();
@@ -261,3 +261,4 @@
     }
   });
 })();
+
